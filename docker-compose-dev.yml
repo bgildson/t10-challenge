@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: t10-challenge-api:dev
+    container_name: t10-challenge-api
+    command: sleep infinity
+    volumes:
+      - .:/home/vscode/api
+    ports:
+      - 8080:8080
+    depends_on:
+      - db

@@ -1,0 +1,8 @@
+.pgadmin
+.pgdata
+.rabbitmq
+.vscode/settings.json
+**/.DS_Store
+**/.env*
+!**/.env.template
+cover.out

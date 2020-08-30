@@ -1,0 +1,17 @@
+{
+	"name": "t10-challenge",
+	"dockerComposeFile": [
+		"../docker-compose-dev.yml"
+	],
+	"service": "api",
+	"workspaceFolder": "/home/vscode/api",
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"go.useGoProxyToCheckForToolUpdates": false,
+		"go.gopath": "/go"
+	},
+	"extensions": [
+		"golang.Go",
+		"premparihar.gotestexplorer"
+	]
+}

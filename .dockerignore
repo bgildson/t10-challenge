@@ -1,0 +1,7 @@
+.git
+.pgadmin
+.pgdata
+.rabbitmq
+.vscode
+**/.DS_Store
+.env
