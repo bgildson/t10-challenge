@@ -14,3 +14,16 @@ cmd-exists-%:
 		(echo "ERROR: '$(*)' must be installed and available on your PATH."; exit 1)
 
 .PHONY: envvar-exists-% cmd-exists-%
+
+# final commands
+
+test:
+	@go list ./... | grep -v /mock | xargs go test -cover
+
+mockgen:
+	@go get github.com/golang/mock/gomock
+	@go install github.com/golang/mock/mockgen
+	mockgen -source ./pkg/auth/repository/token_interface.go -destination ./pkg/auth/repository/mock/token_repository.go -package mock
+	mockgen -source ./pkg/auth/repository/user_interface.go -destination ./pkg/auth/repository/mock/user_repository.go -package mock
+
+.PHONY: test mockgen
