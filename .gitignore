@@ -6,3 +6,4 @@
 **/.env*
 !**/.env.template
 cover.out
+coverage.out
