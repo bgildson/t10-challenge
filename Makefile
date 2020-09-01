@@ -26,6 +26,9 @@ up-to-%: envvar-exists-DATABASE_URL
 down-to-%: envvar-exists-DATABASE_URL
 	migrate -path=./migrations -database ${DATABASE_URL} -verbose down $(*)
 
+rest:
+	@go run cmd/rest/main.go
+
 test:
 	@go list ./... | grep -v /mock | xargs go test -cover
 
@@ -36,4 +39,4 @@ mockgen:
 	mockgen -source ./pkg/auth/repository/user_interface.go -destination ./pkg/auth/repository/mock/user_repository.go -package mock
 	mockgen -source ./pkg/auth/service/auth_service.go -destination ./pkg/auth/service/mock/auth_service.go -package mock
 
-.PHONY: up up-to-% down-to-% test mockgen
+.PHONY: up up-to-% down-to-% rest test mockgen
