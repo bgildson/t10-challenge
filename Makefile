@@ -17,6 +17,15 @@ cmd-exists-%:
 
 # final commands
 
+up: envvar-exists-DATABASE_URL install-migrate
+	migrate -path=./migrations -database ${DATABASE_URL} -verbose up
+
+up-to-%: envvar-exists-DATABASE_URL
+	migrate	-path=./migrations -database ${DATABASE_URL} -verbose up $(*)
+
+down-to-%: envvar-exists-DATABASE_URL
+	migrate -path=./migrations -database ${DATABASE_URL} -verbose down $(*)
+
 test:
 	@go list ./... | grep -v /mock | xargs go test -cover
 
@@ -27,4 +36,4 @@ mockgen:
 	mockgen -source ./pkg/auth/repository/user_interface.go -destination ./pkg/auth/repository/mock/user_repository.go -package mock
 	mockgen -source ./pkg/auth/service/auth_service.go -destination ./pkg/auth/service/mock/auth_service.go -package mock
 
-.PHONY: test mockgen
+.PHONY: up up-to-% down-to-% test mockgen
