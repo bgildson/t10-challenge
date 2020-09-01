@@ -26,13 +26,13 @@ export DATABASE_URL=postgres://postgres:postgres@localhost:5432/t10_challenge?ss
 Apply the database migrations
 
 ```sh
-docker run -v $(pwd)/migrations:/migrations --network host migrate/migrate:v4.11.0 -path=/migrations -database ${DATABASE_URL} -verbose up
+docker run --rm -v $(pwd)/migrations:/migrations --network host migrate/migrate:v4.11.0 -path=/migrations -database ${DATABASE_URL} -verbose up
 ```
 
 Populate the database with some users
 
 ```sh
-docker run -v $(pwd)/users.sql:/tmp/users.sql --network host postgres:12-alpine psql -Atx ${DATABASE_URL} -f "/tmp/users.sql"
+docker run --rm -v $(pwd)/users.sql:/tmp/users.sql --network host postgres:12-alpine psql -Atx ${DATABASE_URL} -f "/tmp/users.sql"
 ```
 
 The file "[t10-challenge.postman_collection.json](./t10-challenge.postman_collection.json)" contains a **Postman Collection** to interact with the challenge solution.
