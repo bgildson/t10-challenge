@@ -25,5 +25,6 @@ mockgen:
 	@go install github.com/golang/mock/mockgen
 	mockgen -source ./pkg/auth/repository/token_interface.go -destination ./pkg/auth/repository/mock/token_repository.go -package mock
 	mockgen -source ./pkg/auth/repository/user_interface.go -destination ./pkg/auth/repository/mock/user_repository.go -package mock
+	mockgen -source ./pkg/auth/service/auth_service.go -destination ./pkg/auth/service/mock/auth_service.go -package mock
 
 .PHONY: test mockgen
