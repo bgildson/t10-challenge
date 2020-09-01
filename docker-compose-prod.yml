@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    image: t10-challenge-api:prod
+    container_name: t10-challenge-api
+    restart: always
+    environment:
+      - PORT=80
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/t10_challenge?sslmode=disable
+      - JWT_SECRET_KEY=mysupersecretkey
+      - JWT_EXPIRES_WITH=2520
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+
+  db:
+    image: postgres:12-alpine
+    container_name: t10-challenge-db
+    tty: true
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=t10_challenge
+    volumes:
+      - ./.pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: t10-challenge-pgadmin
+    tty: true
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@email.com
+      - PGADMIN_DEFAULT_PASSWORD=123
+    volumes:
+      - ./.pgadmin:/var/lib/pgadmin
+    ports:
+      - 9009:80
