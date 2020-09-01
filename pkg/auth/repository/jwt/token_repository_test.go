@@ -109,7 +109,7 @@ func TestTokenRepositoryValidate(t *testing.T) {
 					IssuedAt:  tc.inIssuedAt,
 					ExpiresAt: tc.inExpiresAt,
 				},
-				Role: entity.Customer,
+				Role: entity.ExternalApp,
 			}
 			token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 			tokenStr, err := token.SignedString([]byte(tc.inSignString))

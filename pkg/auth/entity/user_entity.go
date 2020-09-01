@@ -13,8 +13,8 @@ type UserRole string
 
 // Available user role
 const (
-	Customer  UserRole = "customer"
-	SuperUser UserRole = "superuser"
+	ExternalApp UserRole = "externalapp"
+	SuperUser   UserRole = "superuser"
 )
 
 // User represents an user

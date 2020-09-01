@@ -25,7 +25,7 @@ func TestNewUser(t *testing.T) {
 			Name:     "newuser2",
 			Email:    "newuser2@email.com",
 			Password: "654321",
-			Role:     Customer,
+			Role:     ExternalApp,
 		},
 	}
 
