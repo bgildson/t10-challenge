@@ -102,22 +102,24 @@ func TestTokenRepositoryValidate(t *testing.T) {
 	}
 
 	for _, tc := range tt {
-		claims := TokenClaims{
-			StandardClaims: jwt.StandardClaims{
-				Subject:   user.ID,
-				IssuedAt:  tc.inIssuedAt,
-				ExpiresAt: tc.inExpiresAt,
-			},
-			Role: entity.Customer,
-		}
-		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-		tokenStr, err := token.SignedString([]byte(tc.inSignString))
-		if err != nil {
-			t.Errorf("could not sign the token: %v", err)
-		}
+		t.Run(tc.description, func(t *testing.T) {
+			claims := TokenClaims{
+				StandardClaims: jwt.StandardClaims{
+					Subject:   user.ID,
+					IssuedAt:  tc.inIssuedAt,
+					ExpiresAt: tc.inExpiresAt,
+				},
+				Role: entity.Customer,
+			}
+			token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+			tokenStr, err := token.SignedString([]byte(tc.inSignString))
+			if err != nil {
+				t.Errorf("could not sign the token: %v", err)
+			}
 
-		if valid, _ := repository.Validate(tokenStr); valid != tc.outValid {
-			t.Error("could not validate the token")
-		}
+			if valid, _ := repository.Validate(tokenStr); valid != tc.outValid {
+				t.Error("could not validate the token")
+			}
+		})
 	}
 }
