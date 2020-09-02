@@ -17,7 +17,7 @@ cmd-exists-%:
 
 # final commands
 
-up: envvar-exists-DATABASE_URL install-migrate
+up: envvar-exists-DATABASE_URL
 	migrate -path=./migrations -database ${DATABASE_URL} -verbose up
 
 up-to-%: envvar-exists-DATABASE_URL
