@@ -2,7 +2,6 @@ package postgres
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/bgildson/t10-challenge/pkg/auth/entity"
 	"github.com/bgildson/t10-challenge/pkg/auth/repository"
@@ -10,7 +9,7 @@ import (
 )
 
 // QueryGetByEmail selects the user by email
-var QueryGetByEmail = `
+const QueryGetByEmail = `
 SELECT
 	id,
 	name,
@@ -32,26 +31,17 @@ func NewUserRepository(db *sqlx.DB) repository.UserRepository {
 }
 
 func (r userRepository) GetByEmail(ctx context.Context, email string) (*entity.User, error) {
-	rows, err := r.db.Query(QueryGetByEmail, email)
-	if err != nil {
-		return nil, fmt.Errorf("could not get an user by email: %v", err)
-	}
-	defer rows.Close()
+	row := r.db.QueryRowContext(ctx, QueryGetByEmail, email)
 
-	user := &entity.User{}
-	if rows.Next() {
-		err := rows.Scan(
-			&user.ID,
-			&user.Name,
-			&user.Email,
-			&user.HashedPassword,
-			&user.Role,
-			&user.CreatedAt,
-		)
-		if err != nil {
-			return nil, err
-		}
-	}
+	var user entity.User
+	err := row.Scan(
+		&user.ID,
+		&user.Name,
+		&user.Email,
+		&user.HashedPassword,
+		&user.Role,
+		&user.CreatedAt,
+	)
 
-	return user, nil
+	return &user, err
 }
